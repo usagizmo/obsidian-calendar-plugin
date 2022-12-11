@@ -16,6 +16,7 @@ export interface ISettings {
   weeklyNoteFormat: string;
   weeklyNoteTemplate: string;
   weeklyNoteFolder: string;
+  useISOWeekNumber: boolean;
 
   localeOverride: ILocaleOverride;
 }
@@ -97,6 +98,7 @@ export class CalendarSettingsTab extends PluginSettingTab {
       this.addWeeklyNoteFormatSetting();
       this.addWeeklyNoteTemplateSetting();
       this.addWeeklyNoteFolderSetting();
+      this.addUseISOWeekNumberSetting();
     }
 
     this.containerEl.createEl("h3", {
@@ -211,6 +213,18 @@ export class CalendarSettingsTab extends PluginSettingTab {
           this.plugin.writeOptions(() => ({ weeklyNoteFolder: value }));
         });
       });
+  }
+
+  addUseISOWeekNumberSetting(): void {
+    new Setting(this.containerEl)
+    .setName("Use ISO week number")
+    .setDesc("The week containing January 4 is considered the first week")
+    .addToggle((toggle) => {
+      toggle.setValue(this.plugin.options.useISOWeekNumber);
+      toggle.onChange(async (value) => {
+        this.plugin.writeOptions(() => ({ useISOWeekNumber: value }));
+      });
+    });
   }
 
   addLocaleOverrideSetting(): void {

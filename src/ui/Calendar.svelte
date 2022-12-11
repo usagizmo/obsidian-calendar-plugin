@@ -40,12 +40,14 @@
   let heartbeat = setInterval(() => {
     tick();
 
-    const isViewingCurrentMonth = displayedMonth.isSame(today, "day");
-    if (isViewingCurrentMonth) {
-      // if it's midnight on the last day of the month, this will
-      // update the display to show the new month.
-      displayedMonth = today;
-    }
+    try {
+      const isViewingCurrentMonth = displayedMonth.isSame(today, "day");
+      if (isViewingCurrentMonth) {
+        // if it's midnight on the last day of the month, this will
+        // update the display to show the new month.
+        displayedMonth = today;
+      }
+    } catch {}
   }, 1000 * 60);
 
   onDestroy(() => {
@@ -66,4 +68,5 @@
   localeData={today.localeData()}
   selectedId={$activeFile}
   showWeekNums={$settings.showWeeklyNote}
+  useISOWeekNumber={$settings.useISOWeekNumber}
 />
